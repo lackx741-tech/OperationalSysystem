@@ -1,0 +1,79 @@
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: apps/dashboard/Dockerfile
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      APP_URL: ${APP_URL:-http://localhost}
+      API_URL: ${API_URL:-http://localhost/api}
+    expose:
+      - "3000"
+    depends_on:
+      - build-api
+
+  build-api:
+    build:
+      context: .
+      dockerfile: apps/build-api/Dockerfile
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 4000
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/operational_builder}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      APP_URL: ${APP_URL:-http://localhost}
+      API_URL: ${API_URL:-http://localhost/api}
+      BASE_DOMAIN: ${BASE_DOMAIN:-localhost}
+      BUILD_STORAGE_PATH: ${BUILD_STORAGE_PATH:-/var/lib/operational/builds}
+      BUILD_WORKER_CONCURRENCY: ${BUILD_WORKER_CONCURRENCY:-4}
+    expose:
+      - "4000"
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/operational_builder}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      APP_URL: ${APP_URL:-http://localhost}
+      API_URL: ${API_URL:-http://localhost/api}
+      BASE_DOMAIN: ${BASE_DOMAIN:-localhost}
+      BUILD_STORAGE_PATH: ${BUILD_STORAGE_PATH:-/var/lib/operational/builds}
+      BUILD_WORKER_CONCURRENCY: ${BUILD_WORKER_CONCURRENCY:-4}
+    depends_on:
+      - build-api
+      - redis
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: operational_builder
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  reverse-proxy:
+    image: caddy:2-alpine
+    depends_on:
+      - dashboard
+      - build-api
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+
+volumes:
+  postgres-data:
