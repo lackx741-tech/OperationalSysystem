@@ -39,7 +39,7 @@ export default function Home() {
         </div>
         <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
           <div className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.35em] text-muted">OperationalSysystem</p>
+            <p className="text-sm uppercase tracking-[0.35em] text-muted">Operational System</p>
             <h1 className="max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
               Monorepo foundation for the dashboard, build API, worker, and shared runtime packages.
             </h1>
