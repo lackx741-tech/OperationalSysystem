@@ -65,7 +65,7 @@ export default function Home() {
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-xl font-semibold">Workspace layout</h2>
             <span className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-[0.25em] text-muted">
-              14 packages/apps
+              {workspaces.length} packages/apps
             </span>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">

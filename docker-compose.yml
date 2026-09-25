@@ -23,7 +23,7 @@ services:
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
       APP_URL: ${APP_URL:-http://localhost}
       API_URL: ${API_URL:-http://localhost/api}
-      BASE_DOMAIN: ${BASE_DOMAIN:-local.operational.test}
+      BASE_DOMAIN: ${BASE_DOMAIN:-localhost}
       BUILD_STORAGE_PATH: ${BUILD_STORAGE_PATH:-/var/lib/operational/builds}
       BUILD_WORKER_CONCURRENCY: ${BUILD_WORKER_CONCURRENCY:-4}
     expose:
@@ -42,7 +42,7 @@ services:
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
       APP_URL: ${APP_URL:-http://localhost}
       API_URL: ${API_URL:-http://localhost/api}
-      BASE_DOMAIN: ${BASE_DOMAIN:-local.operational.test}
+      BASE_DOMAIN: ${BASE_DOMAIN:-localhost}
       BUILD_STORAGE_PATH: ${BUILD_STORAGE_PATH:-/var/lib/operational/builds}
       BUILD_WORKER_CONCURRENCY: ${BUILD_WORKER_CONCURRENCY:-4}
     depends_on:
