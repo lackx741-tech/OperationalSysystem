@@ -5,10 +5,10 @@ services:
       dockerfile: apps/dashboard/Dockerfile
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      APP_URL: ${APP_URL:-http://localhost:3000}
-      API_URL: ${API_URL:-http://localhost:4000}
-    ports:
-      - "3000:3000"
+      APP_URL: ${APP_URL:-http://localhost}
+      API_URL: ${API_URL:-http://localhost/api}
+    expose:
+      - "3000"
     depends_on:
       - build-api
 
@@ -21,13 +21,13 @@ services:
       PORT: 4000
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/operational_builder}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
-      APP_URL: ${APP_URL:-http://localhost:3000}
-      API_URL: ${API_URL:-http://localhost:4000}
+      APP_URL: ${APP_URL:-http://localhost}
+      API_URL: ${API_URL:-http://localhost/api}
       BASE_DOMAIN: ${BASE_DOMAIN:-local.operational.test}
       BUILD_STORAGE_PATH: ${BUILD_STORAGE_PATH:-/var/lib/operational/builds}
       BUILD_WORKER_CONCURRENCY: ${BUILD_WORKER_CONCURRENCY:-4}
-    ports:
-      - "4000:4000"
+    expose:
+      - "4000"
     depends_on:
       - postgres
       - redis
@@ -40,8 +40,8 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/operational_builder}
       REDIS_URL: ${REDIS_URL:-redis://redis:6379}
-      APP_URL: ${APP_URL:-http://localhost:3000}
-      API_URL: ${API_URL:-http://localhost:4000}
+      APP_URL: ${APP_URL:-http://localhost}
+      API_URL: ${API_URL:-http://localhost/api}
       BASE_DOMAIN: ${BASE_DOMAIN:-local.operational.test}
       BUILD_STORAGE_PATH: ${BUILD_STORAGE_PATH:-/var/lib/operational/builds}
       BUILD_WORKER_CONCURRENCY: ${BUILD_WORKER_CONCURRENCY:-4}
