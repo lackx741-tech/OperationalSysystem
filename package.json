@@ -1,0 +1,23 @@
+{
+  "name": "operationalsysystem",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:dashboard": "npm run dev --workspace @operational/dashboard",
+    "dev:api": "npm run dev --workspace @operational/build-api",
+    "dev:worker": "npm run dev --workspace @operational/worker",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,64 @@
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: apps/dashboard/Dockerfile
+    env_file:
+      - .env.example
+    ports:
+      - "3000:3000"
+    depends_on:
+      - build-api
+
+  build-api:
+    build:
+      context: .
+      dockerfile: apps/build-api/Dockerfile
+    env_file:
+      - .env.example
+    environment:
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - redis
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    env_file:
+      - .env.example
+    depends_on:
+      - build-api
+      - redis
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: operational_builder
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  reverse-proxy:
+    image: caddy:2-alpine
+    depends_on:
+      - dashboard
+      - build-api
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+
+volumes:
+  postgres-data:

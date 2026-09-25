@@ -1,0 +1,12 @@
+node_modules/
+.npm/
+.env
+.env.local
+.env.*.local
+.next/
+dist/
+coverage/
+apps/dashboard/.next/
+apps/dashboard/out/
+builds/
+.DS_Store
