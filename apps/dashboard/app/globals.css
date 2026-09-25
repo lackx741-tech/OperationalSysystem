@@ -16,8 +16,8 @@
   --color-card: var(--card);
   --color-border: var(--border);
   --color-accent: var(--accent);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", "Consolas", monospace;
 }
 
 * {
@@ -33,7 +33,7 @@ body {
   min-height: 100vh;
   background: radial-gradient(circle at top, #202021, #0a0a0b 48%);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
 
 a {
